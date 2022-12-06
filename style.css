@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1000px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.econtainer {
+  width: 50%;
+  height: 100%;
+  margin-top: 20px;
+  border: 2px solid black;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  width: 100%;
+}
+
+.editor_container {
+  height: 100%;
+}
+.logo {
+  cursor: pointer;
+}
+
+.result_container {
+  width: 50%;
+  height: 100%;
+  margin-top: 20px;
+  border: 2px solid black;
+}
+
+.result_header {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  height: 100px;
+}
+
+.table_box {
+  display: flex;
+}
