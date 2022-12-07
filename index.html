@@ -4,8 +4,39 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="drag.css" />
+    <link
+      rel="stylesheet"
+      href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="index.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+    <script>
+      $(function () {
+        $(document).on("mouseover", ".table_tag td", function (e) {
+          if (!$(this).hasClass("ui-resizable")) {
+            $(this).addClass("ui-resizable");
+          }
+
+          $(".table_tag td").resizable({
+            aspectRatio: 16 / 9,
+          });
+        });
+
+        $(document).on("mouseleave", ".table_tag td", function (e) {
+          $(this).removeClass("ui-resizable");
+        });
+      });
+      $(function () {
+        $(".column").sortable();
+      });
+    </script>
+
     <title>Document1</title>
   </head>
   <body>
@@ -14,7 +45,7 @@
         <div class="toolbar">
           <img
             src="images/table.png"
-            class="logo"
+            class="table_logo"
             alt="click to table"
             data-table="table"
           />
@@ -22,28 +53,166 @@
             class="logo"
             src="images/center-sort.png"
             alt="click to center sort"
-            data-center="center"
+            data-center="sort_center"
           />
           <img
+            draggable="true"
             class="logo"
             src="images/left-sort.png"
             alt="click to left sort"
-            data-left="left"
+            data-left="sort_left"
           />
           <img
             class="logo"
             src="images/right-sort.png"
             alt="click to right sort"
-            data-right="right"
+            data-right="sort_right"
           />
         </div>
         <div class="editor_container" contenteditable="true"></div>
       </div>
-      <div class="result_container">
+      <div class="result_container" data-onon="on">
         <div class="result_header">Result</div>
       </div>
     </div>
+    <div class="drag_and_drop">
+      <ul class="ulul">
+        <li class="lili" draggable="true">순서</li>
+        <li class="lili" draggable="true">순서</li>
+        <li class="lili" draggable="true">순서</li>
+        <li class="lili" draggable="true">순서</li>
+        <li class="lili" draggable="true">순서</li>
+      </ul>
+    </div>
+    <div class="container">
+      <div class="draggable" draggable="true">
+        <span class="ico-drag"></span>
+        <div class="el">HTML</div>
+      </div>
+      <div class="draggable" draggable="true">
+        <span class="ico-drag"></span>
+        <div class="el">CSS</div>
+      </div>
+      <div class="draggable" draggable="true">
+        <span class="ico-drag"></span>
+        <div class="el">JavaScript</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="draggable" draggable="true">
+        <span class="ico-drag"></span>
+        <div class="el">React</div>
+      </div>
+      <div class="draggable" draggable="true">
+        <span class="ico-drag"></span>
+        <div class="el">Vue</div>
+      </div>
+      <div class="draggable" draggable="true">
+        <span class="ico-drag"></span>
+        <div class="el">Next JS</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="column">
+        <h1>1</h1>
+        <div class="list-group-item" draggable="true">Wash Clothes</div>
+        <div class="list-group-item" draggable="true">
+          Take a stroll outside
+        </div>
+        <div class="list-group-item" draggable="true">Design Thumbnail</div>
+        <div class="list-group-item" draggable="true">Attend Meeting</div>
+        <div class="list-group-item" draggable="true">Fix workshop</div>
+        <div class="list-group-item" draggable="true">Visit the zoo</div>
+      </div>
+      <div class="column">
+        <h1>2</h1>
+      </div>
+      <div class="column">
+        <h1>3</h1>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <td>Row Count</td>
+        <td>Column Count</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="txtrows" value="5" /></td>
+        <td><input type="text" id="txtcols" value="5" /></td>
+        <td><button onclick="CreateTable()">Create Table</button></td>
+      </tr>
+    </table>
+
+    <div id="myDynamicTable"></div>
+
+    <button onclick="mergeCell()">Merge Highlight Cell</button>
+    <script>
+      function CreateTable() {
+        var rowCtr;
+        var cellCtr;
+        var rowCnt;
+        var cellCnt;
+        var myTableDiv = document.getElementById("myDynamicTable");
+        var table = document.createElement("Table");
+        table.border = "1";
+        table.id = "myTable";
+        var tableBody = document.createElement("Tbody");
+        table.appendChild(tableBody);
+        rowCnt = document.getElementById("txtrows").value;
+        cellCnt = document.getElementById("txtcols").value;
+        for (var rowCtr = 0; rowCtr < rowCnt; rowCtr++) {
+          var tr = document.createElement("tr");
+          tableBody.appendChild(tr);
+          for (var cellCtr = 0; cellCtr < cellCnt; cellCtr++) {
+            var td = document.createElement("td");
+            td.width = "120";
+            td.appendChild(
+              document.createTextNode(
+                "Click me, Row:" + rowCtr + " Column:" + cellCtr
+              )
+            );
+            tr.appendChild(td);
+          }
+        }
+        myTableDiv.appendChild(table);
+
+        $("#myTable td").each(function () {
+          $(this).click(function () {
+            var selected = $(this).hasClass("highlited");
+            $("#myTable tr").removeClass("highlited");
+            if (!selected) $(this).addClass("highlited");
+          });
+        });
+      }
+
+      function mergeCell() {
+        $("#myTable tr").each(function (e) {
+          var oldTDLength = $(this).find("td").length;
+
+          for (xTD = 0; xTD < oldTDLength; xTD++) {
+            crrTD = $(this).find("td:eq(" + xTD + ")");
+            crrTDNext = $(this)
+              .find("td:eq(" + xTD + ")")
+              .next();
+            var colSpan = 1;
+
+            while (
+              crrTD.hasClass("highlited") &&
+              crrTD.hasClass("highlited") == crrTDNext.hasClass("highlited")
+            ) {
+              var tempCell = crrTDNext; ///store old cell in temp
+              crrTDNext = crrTDNext.next(); ///get next
+              tempCell.remove(); ///remove next highlited cell
+              colSpan++;
+              xTD++; //to skip merged cell
+            }
+            if (colSpan > 1) crrTD.attr("colSpan", colSpan);
+          } //td loop
+        }); //tr loop
+      }
+    </script>
   </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="index.js" type="text/javascript"></script>
 </html>
