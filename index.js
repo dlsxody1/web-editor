@@ -15,15 +15,15 @@ $(function () {
        table_box 라는 div의 마지막 요소에 버튼을 붙힘.
        ****************************************************/
   let count = 0;
-  const makeTable = () => {
-    count++;
-    let tableUpperTag = `<div class="table_box"><table border='1'  class='table_tag' id=${count}>`;
 
-    for (let i = 0; i < 5; i++) {
+  const makeTable = (row, col) => {
+    let tableUpperTag = `<div class="table_box"><table border='1'  class='table_tag' data-table=${count}>`;
+
+    for (let i = 0; i < row; i++) {
       tableUpperTag += "<tr>";
-      for (let j = 0; j < 5; j++) {
+      for (let j = 0; j < col; j++) {
         tableUpperTag +=
-          "<td  class='table_column_value'> <div class='table_inner_text' contenteditable='true'></div></td>";
+          "<td  class='table_column_value' ><div class='table_inner_text' contenteditable='true'></div> </td>";
       }
       tableUpperTag += "<tr/>";
     }
@@ -40,8 +40,21 @@ $(function () {
     }
   };
 
-  $(".table_logo").on("click", function () {
-    makeTable();
+  // 테이블 form 이벤트
+  $(".table_form").on("submit", function (e) {
+    e.preventDefault();
+  });
+
+  $(".table_button").on("click", function () {
+    let rowValue = Number($('input[name="row"]').val());
+    let columnValue = Number($('input[name="column"]').val());
+    console.log(rowValue);
+    if (rowValue === 0 || columnValue === 0) {
+      alert("0보다 큰 숫자를 입력해 주세요 !");
+    } else if (isNaN(rowValue) || isNaN(columnValue)) {
+      alert("문자말고 숫자로 입력해주세요 !");
+    }
+    makeTable(rowValue, columnValue);
   });
 
   $(".lili").on("dragstart", function (e) {
@@ -79,9 +92,15 @@ $(document).on("mouseout", ".add_row_onmouse", function () {
 
 $(document).on("click", ".add_row_onmouse", function (event) {
   let row = $(this).data("row");
-  //현재 누른 table에 tr이 몇개인지 세야함.
-  console.log("");
-  let addblock = "<tr>";
+  let addBlock = "<tr>";
+  console.log(row.length);
+  //현재 누른 table에 tr이 몇개인지 세야함
+
+  for (let i = 0; i < rowValue; i++) {
+    addBlock += "<td><div contenteditable='true'></div></td>";
+  }
+  addBlock += "</tr>";
+  row.append();
 
   console.log(row);
 });
